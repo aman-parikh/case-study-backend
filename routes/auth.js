@@ -28,10 +28,10 @@ router.post('/register', async (req, res) => {
     name, email, hashedPassword, dob, district, city, pincode, phoneNumber, dose1, dose2
   )
   result.then((data) => {
-    res.status(200).json({ status: '200 OK', data: data })
+    return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)
-    res.status(304).json({ status: '304 DB ERROR', error: err.message })
+    return res.status(304).json({ status: '304 DB ERROR', error: err.message })
   })
 })
 //router for loggin in a user
@@ -40,18 +40,18 @@ router.put('/login', async (req, res) => {
   password = req.body.password
   let result = await userQueries.getUserByEmail(email)
   if (!result) {
-    res.json({ error: 'User not found' })
+    return res.json({ error: 'User not found' })
   }
   else {
     console.log(result)
     const validPassword = await bcrypt.compare(password, result.password)
     console.log(validPassword)
     if (!validPassword) {
-      res.json({ error: 'Password mismatch' })
+      return res.json({ error: 'Password mismatch' })
     }
     else {
       const token = jwt.sign({ _id: result.id }, secretKey)
-      res.header('auth-header', token).json({ message: 'Password is correct', token: token, data: result })
+      return res.header('auth-header', token).json({ message: 'Password is correct', token: token, data: result })
     }
   }
 })
@@ -60,9 +60,9 @@ router.get('/getById', async function (req, res) {
   let result = userQueries.getUserById(user_id)
   if (result) {
     result.then((data) => {
-      res.status(200).json({ status: '200 OK', data: data })
+      return res.status(200).json({ status: '200 OK', data: data })
     }).catch((err) => {
-      res.status(304).json({ status: '304 DB ERROR', error: err.message })
+      return res.status(304).json({ status: '304 DB ERROR', error: err.message })
     })
   }
 })

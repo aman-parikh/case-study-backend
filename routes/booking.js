@@ -5,10 +5,10 @@ router.delete('/cancel', async (req, res) => {
   booking_id = req.body.booking_id
   let result = bookQueries.findAndDeleteBooking(booking_id)
   result.then((data) => {
-    res.status(200).json({ status: '200 OK', data: data })
+    return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)
-    res.status(304).json({ status: '304 DB ERROR', error: err.message })
+    return res.status(304).json({ status: '304 DB ERROR', error: err.message })
   })
 })
 router.post('/create', async (req, res) => {
@@ -21,10 +21,10 @@ router.post('/create', async (req, res) => {
   console.log(req.body.center_id)
   let result = bookQueries.bookVaccine(center_id, user_id, date, slot, vaccName, dose) || "no info"
   result.then((data) => {
-    res.status(200).json({ status: '200 OK', data: data })
+    return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)
-    res.status(304).json({ status: '304 DB ERROR', error: err.message })
+    return res.status(304).json({ status: '304 DB ERROR', error: err.message })
   })
 })
 router.get('/get', async (req, res) => {
@@ -32,10 +32,10 @@ router.get('/get', async (req, res) => {
   let result = bookQueries.getByUserId(user_id) || null
   if (result) {
     result.then((data) => {
-      res.status(200).json({ status: '200 OK', data: data })
+      return res.status(200).json({ status: '200 OK', data: data })
     }).catch((err) => {
       console.log(err.message)
-      res.status(304).json({ status: '304 DB ERROR', error: err.message })
+      return res.status(304).json({ status: '304 DB ERROR', error: err.message })
     })
   }
 })
