@@ -1,7 +1,7 @@
 var router = require('express').Router()
 require('dotenv').config()
 const bookQueries = require('../models/bookings.js')
-router.delete('/cancel', async (req, res) => {
+router.put('/cancel', async (req, res) => {
   booking_id = req.body.booking_id
   let result = bookQueries.findAndDeleteBooking(booking_id)
   result.then((data) => {
@@ -27,7 +27,7 @@ router.post('/create', async (req, res) => {
     return res.status(304).json({ status: '304 DB ERROR', error: err.message })
   })
 })
-router.get('/get', async (req, res) => {
+router.put('/get', async (req, res) => {
   user_id = req.body.user_id
   let result = bookQueries.getByUserId(user_id) || null
   if (result) {

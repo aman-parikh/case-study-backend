@@ -55,7 +55,7 @@ router.put('/login', async (req, res) => {
     }
   }
 })
-router.get('/getById', async function (req, res) {
+router.put('/getById', async function (req, res) {
   user_id = req.body.user_id
   let result = userQueries.getUserById(user_id)
   if (result) {

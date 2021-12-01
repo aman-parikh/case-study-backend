@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
 require('./models/hospital')
 var auth = require('./routes/auth.js')
 var hospital = require('./routes/hospital.js')
