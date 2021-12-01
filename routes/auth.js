@@ -9,22 +9,23 @@ router.post('/register', async (req, res) => {
   email = req.body.email
   let thisUser = await userQueries.getUserByEmail(email)
   if (thisUser) {
-    return res.status(200).json({ status:'200 OK', message: 'User with email exists' })
+    return res.status(200).json({ status: '200 OK', message: 'User with email exists' })
   }
   name = req.body.name
   password = req.body.password
   dob = req.body.dob
+  email = req.body.email
   district = req.body.district
   city = req.body.city
   pincode = req.body.pincode
-  dose1 = req.body.dose1
-  dose2 = req.body.dose2
+  dose1 = req.body.dose1 === "true"
+  dose2 = req.body.dose2 === "true"
   phoneNumber = req.body.phoneNumber
   //hashing password
   var salt = await bcrypt.genSaltSync(10)
   var hashedPassword = await bcrypt.hash(password, salt)
   let result = userQueries.addUser(
-    name, email, password, dob, district, city, pincode, phoneNumber, dose1, dose2
+    name, email, hashedPassword, dob, district, city, pincode, phoneNumber, dose1, dose2
   )
   result.then((data) => {
     res.status(200).json({ status: '200 OK', data: data })
