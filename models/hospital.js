@@ -33,3 +33,8 @@ const getHospitalByPin = async (Pin) => {
   return res
 }
 module.exports.getHospitalByPin = getHospitalByPin
+const getHospitalById = async (center_id) => {
+  let res = APIData.find({ _id: center_id })
+  return res
+}
+module.exports.getHospitalById = getHospitalById

@@ -34,7 +34,7 @@ const user = new mongoose.Schema({
     dose1: Boolean,
     dose2: Boolean
   },
-})
+}, { collection: 'users' })
 const User = new mongoose.model("user", user)
 const addUser = async (name, email, password, dob, district, city, pincode, phoneNumber, dose1, dose2) => {
   return User.insertMany(new User({
@@ -72,6 +72,11 @@ const getUserByEmail = async (email) => {
   let result = User.findOne({ email: email })
   return result
 }
+const getUserById = async (user_id) => {
+  let result = User.findOne({ _id: user_id })
+  return result
+}
 module.exports.addUser = addUser
 module.exports.getUserByName = getUserByName
 module.exports.getUserByEmail = getUserByEmail
+module.exports.getUserById = getUserById

@@ -8,7 +8,7 @@ var booking = {
   center_id: {
     type: mongoose.Schema.Types.ObjectId
   },
-  user_id: mongoose.Schema.Types.ObjectId, 
+  user_id: mongoose.Schema.Types.ObjectId,
   date: Date,
   slot: Number,
   vaccine: {
@@ -17,23 +17,27 @@ var booking = {
   }
 }
 const Booking = mongoose.model('booking', new mongoose.Schema(booking, { collection: 'bookings' }));
-const bookVaccine = async (center_id, user_id, date, slot, vaccName, dose ) => {
+const bookVaccine = async (center_id, user_id, date, slot, vaccName, dose) => {
   return Booking.insertMany(new Booking({
-   center_id: center_id,
-   user_id: user_id,
-   date: date,
-   slot: slot,
-   vaccine:{
-    name:vaccName,
-    dose: dose
-   }
+    center_id: center_id,
+    user_id: user_id,
+    date: date,
+    slot: slot,
+    vaccine: {
+      name: vaccName,
+      dose: dose
+    }
   }))
 }
 const findAndDeleteBooking = async (booking_id) => {
   return Booking.findOneAndDelete({
-    _id : booking_id
-   }
+    _id: booking_id
+  }
   )
 }
+const getByUserId = async (user_id) => {
+  return Booking.find({ user_id: user_id })
+}
 module.exports.bookVaccine = bookVaccine
+module.exports.getByUserId = getByUserId
 module.exports.findAndDeleteBooking = findAndDeleteBooking

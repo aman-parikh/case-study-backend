@@ -33,4 +33,20 @@ router.get('/pin', async (req, res) => {
     })
   }
 })
+router.get('/get', async (req, res) => {
+  center_id = req.body.center_id
+  let result = await hospQueries.getHospitalById(center_id) || "no info"
+  console.log(result)
+  if (result)
+    return res.status(200).json({
+      status: "200 OK",
+      data: result
+    })
+  else{
+    return res.status(200).json({
+      status: "200 OK",
+      data: "NA"
+    })
+  }
+})
 module.exports = router

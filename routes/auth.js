@@ -55,4 +55,15 @@ router.put('/login', async (req, res) => {
     }
   }
 })
+router.get('/getById', async function (req, res) {
+  user_id = req.body.user_id
+  let result = userQueries.getUserById(user_id)
+  if (result) {
+    result.then((data) => {
+      res.status(200).json({ status: '200 OK', data: data })
+    }).catch((err) => {
+      res.status(304).json({ status: '304 DB ERROR', error: err.message })
+    })
+  }
+})
 module.exports = router
