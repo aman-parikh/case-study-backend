@@ -38,6 +38,10 @@ const findAndDeleteBooking = async (booking_id) => {
 const getByUserId = async (user_id) => {
   return Booking.find({ user_id: user_id })
 }
+const getById = async (booking_id) => {
+  return Booking.find({ _id: booking_id })
+}
 module.exports.bookVaccine = bookVaccine
 module.exports.getByUserId = getByUserId
+module.exports.getById = getById
 module.exports.findAndDeleteBooking = findAndDeleteBooking

@@ -54,9 +54,9 @@ const addUser = async (name, email, password, dob, district, city, pincode, phon
     }
   }))
 }
-const updateUserVaccinations = async (id, dose1, dose2) => {
+const updateUserVaccinations = async (user_id, dose) => {
   return User.findOneAndUpdate({
-    _id: id
+    _id: user_id
   }, {
     vaccinationStatus: {
       dose1: dose1,

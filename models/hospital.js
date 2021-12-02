@@ -38,3 +38,27 @@ const getHospitalById = async (center_id) => {
   return res
 }
 module.exports.getHospitalById = getHospitalById
+const decrementVaccine = (center_id, vaccName) => {
+  if (vaccName === "sputnik") {
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.sputnik": -1 } }, { multi: true })
+  }
+  else if(vaccName === "covishield") {
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.covishield": -1 } }, { multi: true })
+  }
+  else{
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.covaxin": -1 } }, { multi: true })
+  }
+}
+const incrementVaccine = (center_id, vaccName) => {
+  if (vaccName === "sputnik") {
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.sputnik": 1 } }, { multi: true })
+  }
+  else if(vaccName === "covishield") {
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.covishield": 1 } }, { multi: true })
+  }
+  else{
+    return APIData.findOneAndUpdate({ _id: center_id }, { $inc: { "vaccine.covaxin": 1 } }, { multi: true })
+  }
+}
+module.exports.decrementVaccine = decrementVaccine
+module.exports.incrementVaccine = incrementVaccine
