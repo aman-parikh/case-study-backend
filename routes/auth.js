@@ -1,3 +1,4 @@
+const axios = require('axios')
 var router = require('express').Router()
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
@@ -5,7 +6,20 @@ const secretKey = process.env.SECRET_KEY
 const userQueries = require('../models/user.js')
 var bcrypt = require('bcryptjs');
 //route for registering a user
+
+const external = async(method,endpoint,body)=>{
+  axios({
+    method: `${method}`,
+    url: `http://localhost:5300/user/${endpoint}`,
+    data: body, // you are sending body instead
+    headers: {
+     // 'Authorization': `bearer ${token}`,
+    'Content-Type': 'application/json'
+    }, 
+  })
+}
 router.post('/register', async (req, res) => {
+  
   email = req.body.email
   let thisUser = await userQueries.getUserByEmail(email)
   if (thisUser) {
@@ -28,6 +42,7 @@ router.post('/register', async (req, res) => {
     name, email, hashedPassword, dob, district, city, pincode, phoneNumber, dose1, dose2
   )
   result.then((data) => {
+    external('post','register',req.body)
     return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)

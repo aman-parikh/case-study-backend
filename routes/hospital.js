@@ -1,6 +1,8 @@
 var router = require('express').Router()
 require('dotenv').config()
 const hospQueries = require('../models/hospital.js')
+
+
 router.put('/district', async (req, res) => {
   district = req.body.district
   let result = await hospQueries.getHospitalByDistrict(district) || "no info"

@@ -43,7 +43,10 @@ const getToken =()=>{
 
 
 //LIST THE API'S here...
+const external = async(method,endpoint,body)=>{
+  
 
+}
 
 app.use('/booking/',booking)
 app.use('/user/', auth)

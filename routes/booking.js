@@ -1,7 +1,20 @@
 var router = require('express').Router()
+const axios = require('axios')
 require('dotenv').config()
 const bookQueries = require('../models/bookings.js')
 const hospQueries = require('../models/hospital.js')
+
+const external = async(method,endpoint,body)=>{
+  axios({
+    method: `${method}`,
+    url: `http://localhost:5300/booking/${endpoint}`,
+    data: body, // you are sending body instead
+    headers: {
+     // 'Authorization': `bearer ${token}`,
+    'Content-Type': 'application/json'
+    }, 
+  })
+}
 
 router.put('/cancel', async (req, res) => {
   booking_id = req.body.booking_id
@@ -16,6 +29,8 @@ router.put('/cancel', async (req, res) => {
   })
   let result = bookQueries.findAndDeleteBooking(booking_id)
   result.then((data) => {
+    //server 2 call
+    external('put','cancel',req.body)
     return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)
@@ -39,6 +54,7 @@ router.post('/create', async (req, res) => {
   })
   let result = bookQueries.bookVaccine(center_id, user_id, date, slot, vaccName, dose) || "no info"
   result.then((data) => {
+    external('post','create',req.body)
     return res.status(200).json({ status: '200 OK', data: data })
   }).catch((err) => {
     console.log(err.message)
